@@ -5,21 +5,23 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: postgresql
+  pool: 25
+  encoding: UTF8
+  username: dugout
+  password: 8bdf5d7ceae440f860dc422e27e9b71360b5f79b7b7b2417aa0a31a466fbc3d1 # 배포 환경에서는 변경 필수
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: dugout_dev
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: dugout_test
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: dugout
