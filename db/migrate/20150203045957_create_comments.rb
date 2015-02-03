@@ -1,12 +1,13 @@
 class CreateComments < ActiveRecord::Migration
   def change
     create_table :comments do |t|
-    	t.text :content
+    	t.text :content, :null => false
     	# 대댓글 깊이 설정
-    	t.intger :depth, :default => 0
-    	t.integer :user_id
-    	t.integer :board_id
-
+    	t.integer :depth, :default => 0
+    	t.integer :user_id, :null => false
+    	t.integer :board_id, :null => false
+      t.integer :parent_id
+      
       t.timestamps
     end
   end

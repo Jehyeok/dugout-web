@@ -41,4 +41,3 @@ gem 'spring',        group: :development
 gem 'pg'
 
 gem 'figaro'
-
