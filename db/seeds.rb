@@ -6,6 +6,58 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# 0 = bears
+# 1 = eagles
+# 2 = tigers
+# 3 = kt
+# 4 = giants
+# 5 = lgtwins
+# 6 = nc
+# 7 = heros
+# 8 = lions
+# 9 = w
+groups = Group.create({
+	number: 0,
+	name: "bears",
+	rank: 0
+}, {
+	number: 1,
+	name: "eagles",
+	rank: 1
+}, {
+	number: 2,
+	name: "tigers",
+	rank: 2
+}, {
+	number: 3,
+	name: "kt",
+	rank: 3
+}, {
+	number: 4,
+	name: "giants",
+	rank: 4
+}, {
+	number: 5,
+	name: "lgtwins",
+	rank: 5
+}, {
+	number: 6,
+	name: "nc",
+	rank: 6
+}, {
+	number: 7,
+	name: "heros",
+	rank: 7
+}, {
+	number: 8,
+	name: "lions",
+	rank: 8
+}, {
+	number: 9,
+	name: "w",
+	rank: 9
+})
+
 users = User.create([{
 	email: "jehyeok.hyun@gmail.com",
 	password: "123456",

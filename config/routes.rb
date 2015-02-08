@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   # match '/boards', to: 'board#index', via: :GET
   resources :boards
   resources :users
+
+  match '/users/signin' => 'users#signin', via: :POST
+  match '/users/signup' => 'users#signup', via: :POST
+
   resources :comments
   match '/boards/:id/comments' => 'comments#board_comments', via: :GET
 
