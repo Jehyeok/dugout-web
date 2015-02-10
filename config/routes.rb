@@ -6,11 +6,20 @@ Rails.application.routes.draw do
   root 'front#index'
 
   # match '/boards', to: 'board#index', via: :GET
-  resources :boards
+  resources :groups do
+    resources :boards
+  end
   resources :users
+
+  match '/boards/:id/comments' => 'boards#comments', via: :POST
+
+  match '/boards/my' => 'boards#my', via: :GET
+  match '/boards/popular' => 'boards#popular', via: :GET
 
   match '/users/signin' => 'users#signin', via: :POST
   match '/users/signup' => 'users#signup', via: :POST
+  
+  match '/groups/select' => 'groups#select', via: :POST
 
   resources :comments
   match '/boards/:id/comments' => 'comments#board_comments', via: :GET

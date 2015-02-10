@@ -27,6 +27,13 @@ class Comment < ActiveRecord::Base
     [self] + descendents
   end
 
+  def size
+    self.size
+  end
+
+  def user_nick_name
+    self.user.nick_name
+  end
   # def descendents_users
   #   children.map do |child|
   #     [child.users] + child.descendents_users

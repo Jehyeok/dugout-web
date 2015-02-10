@@ -16,7 +16,7 @@
 # 7 = heros
 # 8 = lions
 # 9 = w
-groups = Group.create({
+groups = Group.create([{
 	number: 0,
 	name: "bears",
 	rank: 0
@@ -56,24 +56,77 @@ groups = Group.create({
 	number: 9,
 	name: "w",
 	rank: 9
-})
+}])
 
 users = User.create([{
 	email: "jehyeok.hyun@gmail.com",
 	password: "123456",
 	nick_name: "제호구",
-	favorite_group_number: 0
+	group_id: 1
+}, {
+	email: "hook3748@gmail.com",
+	password: "123456",
+	nick_name: "테스트",
+	group_id: 2
 }])
 
 boards = Board.create([{
-	title: "제목입니다.",
+	title: "제목입니다.1",
 	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
-	group_number: 0,
+	group_id: 1,
 	user_id: 1
 }, {
 	title: "제목입니다.",
 	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
-	group_number: 0,
+	group_id: 1,
+	user_id: 1
+}, {
+	title: "제목입니다.2",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 2,
+	user_id: 1
+}, {
+	title: "제목입니다.3",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 3,
+	user_id: 1,
+	like: 200
+}, {
+	title: "제목입니다.4",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 4,
+	user_id: 1,
+	like: 250
+}, {
+	title: "제목입니다.5",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 5,
+	user_id: 1,
+	like: 260
+}, {
+	title: "제목입니다.6",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 6,
+	user_id: 1
+}, {
+	title: "제목입니다.7",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 7,
+	user_id: 1
+}, {
+	title: "제목입니다.8",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 8,
+	user_id: 1
+}, {
+	title: "제목입니다.9",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 9,
+	user_id: 1
+}, {
+	title: "제목입니다.10",
+	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	group_id: 10,
 	user_id: 1
 }])
 
@@ -86,13 +139,13 @@ comments = Comment.create([{
 }, {
 	content: "두번째 댓글내용이닷",
 	depth: 1,
-	user_id: 1,
+	user_id: 2,
 	board_id: 1,
 	parent_id: 1
 }, {
 	content: "세번째 댓글내용이닷",
 	depth: 0,
-	user_id: 1,
+	user_id: 2,
 	board_id: 1,
 	parent_id: nil
 }])

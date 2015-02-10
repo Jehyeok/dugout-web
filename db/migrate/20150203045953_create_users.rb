@@ -5,7 +5,8 @@ class CreateUsers < ActiveRecord::Migration
     	t.string :email, :null => false
   		t.string :nick_name, :null => false
 	    t.string :ip
-	    t.integer :favorite_group_number
+
+      t.belongs_to :group, index: true, :null => false, default: 1
 
       t.timestamps
     end

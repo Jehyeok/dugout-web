@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150203045957) do
+ActiveRecord::Schema.define(version: 20150208081934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,14 @@ ActiveRecord::Schema.define(version: 20150203045957) do
     t.text     "content",                       null: false
     t.integer  "user_like_ids",    default: [],              array: true
     t.integer  "user_dislike_ids", default: [],              array: true
-    t.integer  "group_number",                  null: false
     t.integer  "level",            default: 0
     t.integer  "user_id",                       null: false
+    t.integer  "group_id",                      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "boards", ["group_id"], name: "index_boards_on_group_id", using: :btree
   add_index "boards", ["user_id"], name: "index_boards_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
@@ -43,14 +44,24 @@ ActiveRecord::Schema.define(version: 20150203045957) do
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "password",              null: false
-    t.string   "email",                 null: false
-    t.string   "nick_name",             null: false
-    t.string   "ip"
-    t.integer  "favorite_group_number"
+  create_table "groups", force: true do |t|
+    t.integer  "number",     null: false
+    t.string   "name",       null: false
+    t.integer  "rank",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "password",   null: false
+    t.string   "email",      null: false
+    t.string   "nick_name",  null: false
+    t.string   "ip"
+    t.integer  "group_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["group_id"], name: "index_users_on_group_id", using: :btree
 
 end

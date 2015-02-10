@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 			password: params[:password],
 			nick_name: params[:nick_name],
 			ip: request.remote_ip,
-			favorite_group_number: 0
+			board_id: 0
 		)
 
 		puts "user: #{@user.inspect}"
@@ -50,7 +50,9 @@ class UsersController < ApplicationController
 
 		# 로그인 성공
 		if user.password == params[:password]
+			puts "params email: params[:email]"
 			session[:email] = params[:email]
+			puts "session[:email]: #{session[:email]}"
 			render plain: "success"
 		else
 			render plain: "패스워드가 일치하지 않습니다"
@@ -79,7 +81,7 @@ class UsersController < ApplicationController
 				password: params[:password],
 				nick_name: params[:nick_name],
 				ip: request.remote_ip,
-				favorite_group_number: 0
+				group_id: 1
 			)
 
 			if @user.save
