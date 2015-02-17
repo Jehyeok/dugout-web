@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
 	# GET /boards/:id/comments
 	def board_comments
 		@board = Board.find(params[:id])
+		
 		ancestor_comments = @board.comments.select { |comment| comment.parent_id.nil? }
 		@ordered_comments = []
 

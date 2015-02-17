@@ -11,6 +11,7 @@ class CreateBoards < ActiveRecord::Migration
       # 0: 일반글 ( default )
       # 1: 공지글
       t.integer :level, :default => 0
+      t.string :image_names, array: true, default: []
 
     	t.belongs_to :user, index: true, :null => false
       t.belongs_to :group, index: true, :null => false

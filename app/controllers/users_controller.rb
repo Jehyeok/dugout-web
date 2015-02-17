@@ -34,6 +34,18 @@ class UsersController < ApplicationController
 		end
 	end
 
+	# POST /users/change_nick_name
+	def change_nick_name
+		@user = User.find_by_email(session[:email])
+		@user.nick_name = params[:will_nick_name]
+
+		if @user.save
+			render plain: "success"
+		else
+			render plain: "닉네임을 변경하지 못했습니다"
+		end
+	end
+
 	# DELETE /users/:id
 	def destroy
 

@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150208081934) do
     t.integer  "user_like_ids",    default: [],              array: true
     t.integer  "user_dislike_ids", default: [],              array: true
     t.integer  "level",            default: 0
+    t.string   "image_names",      default: [],              array: true
     t.integer  "user_id",                       null: false
     t.integer  "group_id",                      null: false
     t.datetime "created_at"
@@ -53,11 +54,11 @@ ActiveRecord::Schema.define(version: 20150208081934) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "password",   null: false
-    t.string   "email",      null: false
-    t.string   "nick_name",  null: false
+    t.string   "password",               null: false
+    t.string   "email",                  null: false
+    t.string   "nick_name",              null: false
     t.string   "ip"
-    t.integer  "group_id",   null: false
+    t.integer  "group_id",   default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

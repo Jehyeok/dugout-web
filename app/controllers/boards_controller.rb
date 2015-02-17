@@ -1,10 +1,12 @@
 class BoardsController < ApplicationController
+	require 'digest'
+
 	skip_before_filter :verify_authenticity_token 
 
 	# GET /groups/:group_id/boards
 	# :group_id = group_number
 	def index
-		@boards = Group.find_by_number(params[:group_id]).boards
+		@boards = Group.find_by_number(params[:group_id]).boards.order(id: :desc)
 
 		# respond_to do |format|
 			# format.html
@@ -47,7 +49,17 @@ class BoardsController < ApplicationController
 			user_id: user.id
 		)
 
-		puts "board: #{@board.inspect}"
+		(0...10).each do |i|
+			puts i
+			unless params["#file#{i}"].nil?
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.png"
+				File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+				@board.image_names << file_name
+				@board.image_names_will_change!
+				puts "file write!"
+			end
+		end
+
 		if @board.save
 			render plain: "success"
 		else
@@ -59,7 +71,7 @@ class BoardsController < ApplicationController
 	def comments 
 		@board = Board.find(params[:id])
 		@user = User.find_by_email(session[:email])
-		parent_comment = params[:comment_parent_id].nil? ? nil : Comment.find(params[:comment_parent_id])
+		parent_comment = params[:comment_parent_id].empty? ? nil : Comment.find(params[:comment_parent_id])
 
 		@comment = Comment.create(
 			content: params[:content],
@@ -84,9 +96,52 @@ class BoardsController < ApplicationController
 		@board.count += 1
 		# render json: @board.to_json(:include => :comments, methods: [:comment_size, :user_nick_name])
 		if @board.save
-			render json: @board.to_json(:include => {:comments => {:methods => [:user_nick_name]}}, :methods => [:comment_size, :user_nick_name])
+			# render json: @board.to_json(:include => {:comments => {:methods => [:user_nick_name]}}, :methods => [:comment_size, :user_nick_name])
+			render json: @board.to_json(:methods => [:comment_size, :user_nick_name, :ordered_comments])
 		else
 			render plain: "fail"
+		end
+	end
+
+	# POST /boards/:id/like
+	def like
+		@board = Board.find(params[:id])
+		@board.like += 1
+		user = User.find_by_email(session[:email])
+
+		if @board.user_like_ids.include? user.id
+			render plain: "이미 추천하셨습니다"
+			return
+		else
+			@board.user_like_ids << user.id
+			@board.user_like_ids_will_change!
+		end
+		
+		if @board.save
+			render plain: "success"
+		else
+			render palin: "추천하지 못했습니다"
+		end
+	end
+
+	# POST /boards/:id/like
+	def dislike
+		@board = Board.find(params[:id])
+		@board.dislike += 1
+		user = User.find_by_email(session[:email])
+
+		if @board.user_dislike_ids.include? user.id
+			render plain: "이미 비추천하셨습니다"
+			return
+		else
+			@board.user_dislike_ids << user.id
+			@board.user_dislike_ids_will_change!
+		end
+
+		if @board.save
+			render plain: "success"
+		else
+			render palin: "비추천하지 못했습니다"
 		end
 	end
 

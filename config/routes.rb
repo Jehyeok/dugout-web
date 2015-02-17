@@ -15,9 +15,12 @@ Rails.application.routes.draw do
 
   match '/boards/my' => 'boards#my', via: :GET
   match '/boards/popular' => 'boards#popular', via: :GET
+  match '/boards/:id/like' => 'boards#like', via: :POST
+  match '/boards/:id/dislike' => 'boards#dislike', via: :POST
 
   match '/users/signin' => 'users#signin', via: :POST
   match '/users/signup' => 'users#signup', via: :POST
+  match '/users/change_nick_name' => 'users#change_nick_name', via: :POST
   
   match '/groups/select' => 'groups#select', via: :POST
 
