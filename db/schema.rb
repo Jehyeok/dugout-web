@@ -36,11 +36,12 @@ ActiveRecord::Schema.define(version: 20150208081934) do
   add_index "boards", ["user_id"], name: "index_boards_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
-    t.text     "content",                null: false
-    t.integer  "depth",      default: 0
-    t.integer  "user_id",                null: false
-    t.integer  "board_id",               null: false
+    t.text     "content",                  null: false
+    t.integer  "depth",       default: 0
+    t.integer  "user_id",                  null: false
+    t.integer  "board_id",                 null: false
     t.integer  "parent_id"
+    t.string   "image_names", default: [],              array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

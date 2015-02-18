@@ -7,6 +7,7 @@ class CreateComments < ActiveRecord::Migration
     	t.integer :user_id, :null => false
     	t.integer :board_id, :null => false
       t.integer :parent_id
+      t.string :image_names, array: true, default: []
       
       t.timestamps
     end

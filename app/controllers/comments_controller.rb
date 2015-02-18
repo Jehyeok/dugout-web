@@ -38,10 +38,10 @@ class CommentsController < ApplicationController
 			parent_id: params[:parent_id].to_i,
 			# user_id: params[:user_id],
 			# board_id: params[:board_id]
-			user_id: 1,
-			board_id: 1,
+			# user_id: 1,
+			# board_id: 1,
 		)
-
+		
 		puts "comment: #{@comment.inspect}"
 		if @comment.save
 			render plain: "success"

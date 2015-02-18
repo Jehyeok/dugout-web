@@ -81,8 +81,19 @@ class BoardsController < ApplicationController
 			parent_id: parent_comment.nil? ? nil : parent_comment.id
 		)
 
-		@board.comments << @comment
+		(0...10).each do |i|
+			puts i
+			unless params["#file#{i}"].nil?
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.png"
+				File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+				@comment.image_names << file_name
+				@comment.image_names_will_change!
+				puts "comment image file write!"
+			end
+		end
 
+		@board.comments << @comment
+		
 		if @board.save && @comment.save
 			render plain: "success"
 		else
