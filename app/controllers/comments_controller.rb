@@ -52,6 +52,18 @@ class CommentsController < ApplicationController
 
 	# DELETE /comments/:id
 	def destroy
+		user = User.find_by_email(session[:email])
+		@comment = Comment.find(params[:id])
 
+		if (user.email != @comment.user.email)
+			render plain: "내 댓글만 삭제할 수 있습니다"
+			return 
+		end
+
+		if @comment.destroy
+			render plain: "success"
+		else
+			render plain: "fail"
+		end
 	end
 end

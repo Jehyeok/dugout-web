@@ -1,0 +1,12 @@
+<table class="table table-striped">
+	<% @users.each do |user| %>
+		<tr>
+				<td class="userId"><%= user.id %></td>
+				<td><%= user.email %></td>
+				<td><%= user.nick_name %></td>
+				<td><%= user.ip %></td>
+				<td><a href="/admin/users/<%= user.id %>/boards">게시글보기</a></td>
+				<td><button class="btn btn-danger rmUserBtn">삭제</td>
+		</tr>
+	<% end %>
+</table>

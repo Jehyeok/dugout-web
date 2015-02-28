@@ -48,7 +48,12 @@ class UsersController < ApplicationController
 
 	# DELETE /users/:id
 	def destroy
-
+		@user = User.find(params[:id])
+		if @user.destroy
+			render plain: "success"
+		else
+			render plain: "fail"
+		end
 	end
 
 	# POST /users/signin

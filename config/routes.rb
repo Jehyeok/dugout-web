@@ -5,13 +5,16 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'front#index'
 
+  match '/groups/:group_id/boards_from/:offset' => 'boards#boards_from_offset', via: :GET
+
   # match '/boards', to: 'board#index', via: :GET
   resources :groups do
     resources :boards
   end
   resources :users
 
-  match '/boards/:id/comments' => 'boards#comments', via: :POST
+  match '/boards/:board_id/comments' => 'boards#comments', via: :POST
+  match '/boards/:board_id/comments/:id' => 'boards#comment_update', via: :PUT
 
   match '/boards/my' => 'boards#my', via: :GET
   match '/boards/popular' => 'boards#popular', via: :GET
@@ -27,6 +30,10 @@ Rails.application.routes.draw do
   resources :comments
   match '/boards/:id/comments' => 'comments#board_comments', via: :GET
 
+  match '/admin' => 'admin#main', via: :GET
+  match '/admin/users' => 'admin#users', via: :GET
+  match '/admin/boards' => 'admin#boards', via: :GET
+  match '/admin/users/:id/boards' => 'admin#user_boards', via: :GET
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

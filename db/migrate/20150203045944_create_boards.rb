@@ -4,7 +4,7 @@ class CreateBoards < ActiveRecord::Migration
 			t.integer :like, :default => 0
 			t.integer :dislike, :default => 0
     	t.integer :count, :default => 0
-    	t.string :title, :null => false
+    	t.string :title, :null => true
     	t.text :content, :null => false
     	t.integer :user_like_ids, :array => true, default: []
       t.integer :user_dislike_ids, :array => true, default: []

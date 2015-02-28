@@ -16,6 +16,22 @@ class BoardsController < ApplicationController
 		render json: @boards.to_json(:methods => [:comment_size, :user_nick_name])
 	end
 
+	# GET /groups/:group_id/boards/:offset
+	def boards_from_offset
+		offset = params[:offset]
+
+		group_id = params[:group_id]
+
+		@boards = Group.find_by_number(group_id).boards.limit(50).offset(offset.to_i * 50).order(id: :desc).select { |board| board.level == 0 }
+
+		if offset == "0"
+			notice_boards = Group.find_by_number(group_id).boards.select { |board| board.level == 1 }
+			@boards = notice_boards + @boards
+		end
+		
+		render json: @boards.to_json(:methods => [:comment_size, :user_nick_name])
+	end
+
 	# GET /boards/popular
 	def popular
 		@boards = Board.all.select { |board| board.like >= 100 }
@@ -26,7 +42,8 @@ class BoardsController < ApplicationController
 	# GET /boards/my
 	def my
 		user_email = session[:email]
-		@boards = Board.all.select { |board| board.user.email == "jehyeok.hyun@gmail.com" }
+		@boards = Board.all.order(id: :desc).select { |board| board.user.email == user_email }
+		# @boards = @boards.order(id: :desc)
 		# @boards = Board.all.select { |board| board.user.email == user_email }
 		render json: @boards.to_json(:methods => [:comment_size, :user_nick_name])
 	end
@@ -52,10 +69,16 @@ class BoardsController < ApplicationController
 		(0...10).each do |i|
 			puts i
 			unless params["#file#{i}"].nil?
-				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.png"
-				File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.jpg"
+
+				file_obj = params["#file#{i}"].tempfile
+				contents = File.read(file_obj)
+				File.write("app/assets/data/#{file_name}", contents)
+				# File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+
 				@board.image_names << file_name
-				@board.image_names_will_change!
+				@board.image_names_will_change!	
+
 				puts "file write!"
 			end
 		end
@@ -63,20 +86,63 @@ class BoardsController < ApplicationController
 		if @board.save
 			render plain: "success"
 		else
-			render plain: "fail"
+			render plain: "글쓰기 실패했습니다"
 		end
+	end
+
+	def update
+		group = Group.find_by_number(params[:group_id])
+		user = User.find_by_email(session[:email])
+		board_id = params[:boardId]
+		@board = Board.find(board_id)
+
+		if (user.email != @board.user.email)
+			render plain: "내 글만 수정할 수 있습니다"
+			return 
+		end
+
+		new_board = Board.new(
+			title: params[:title],
+			content: params[:content],
+			group_id: group.id,
+			# user_id: params[:user_id]
+			user_id: user.id
+		)
+
+		(0...10).each do |i|
+			puts i
+			unless params["#file#{i}"].nil?
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.jpg"
+
+				file_obj = params["#file#{i}"].tempfile
+				contents = File.read(file_obj)
+				File.write("app/assets/data/#{file_name}", contents)
+				# File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+
+				new_board.image_names << file_name
+				new_board.image_names_will_change!	
+
+				puts "file write!"
+			end
+		end
+
+		if @board.update(content: new_board.content, image_names: new_board.image_names)
+			render plain: "success"
+		else
+			render plain: "글쓰기 실패했습니다"
+		end		
 	end
 
 	# POST /boards/:id/comments
 	def comments 
-		@board = Board.find(params[:id])
+		@board = Board.find(params[:board_id])
 		@user = User.find_by_email(session[:email])
 		parent_comment = params[:comment_parent_id].empty? ? nil : Comment.find(params[:comment_parent_id])
 
 		@comment = Comment.create(
 			content: params[:content],
 			depth: parent_comment.nil? ? 0 : (parent_comment.depth + 1),
-			board_id: params[:id],
+			board_id: params[:board_id],
 			user_id: @user.id,
 			parent_id: parent_comment.nil? ? nil : parent_comment.id
 		)
@@ -84,8 +150,12 @@ class BoardsController < ApplicationController
 		(0...10).each do |i|
 			puts i
 			unless params["#file#{i}"].nil?
-				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.png"
-				File.write("app/assets/data/#{file_name}", params["#file#{i}"])
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.jpg"
+				
+				file_obj = params["#file#{i}"].tempfile
+				contents = File.read(file_obj)
+				File.write("app/assets/data/#{file_name}", contents)
+				
 				@comment.image_names << file_name
 				@comment.image_names_will_change!
 				puts "comment image file write!"
@@ -98,6 +168,41 @@ class BoardsController < ApplicationController
 			render plain: "success"
 		else
 			render plain: "fail"
+		end
+	end
+
+	def comment_update
+		user = User.find_by_email(session[:email])
+		@comment = Comment.find(params[:id])
+
+		if (user.email != session[:email])
+			render plain: "내 글만 수정할 수 있습니다"
+			return 
+		end
+
+		new_comment = Comment.new(
+			content: params[:content],
+		)
+
+		(0...10).each do |i|
+			puts i
+			unless params["#file#{i}"].nil?
+				file_name = "#{Digest::SHA256.hexdigest((rand() * 1000000).to_s)}.jpg"
+				
+				file_obj = params["#file#{i}"].tempfile
+				contents = File.read(file_obj)
+				File.write("app/assets/data/#{file_name}", contents)
+				
+				new_comment.image_names << file_name
+				new_comment.image_names_will_change!
+				puts "comment image file write!"
+			end
+		end
+		
+		if @comment.update(content: new_comment.content, image_names: new_comment.image_names)
+			render plain: "success"
+		else
+			render plain: "댓글달기 실패했습니다"
 		end
 	end
 
@@ -158,6 +263,18 @@ class BoardsController < ApplicationController
 
 	# DELETE /groups/:group_id/boards/:id
 	def destroy
+		user = User.find_by_email(session[:email])
+		@board = Board.find(params[:id])
 
+		if (user.email != @board.user.email)
+			render plain: "내 글만 삭제할 수 있습니다"
+			return 
+		end
+
+		if @board.destroy
+			render plain: "success"
+		else
+			render plain: "fail"
+		end
 	end
 end

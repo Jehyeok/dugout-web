@@ -2,7 +2,7 @@ class Board < ActiveRecord::Base
 	require 'rubygems'
 	require 'json'
 
-	has_many :comments
+	has_many :comments, :dependent => :destroy
 	belongs_to :user
 	belongs_to :group
 
@@ -20,7 +20,7 @@ class Board < ActiveRecord::Base
 
 	def ordered_comments
 		ordered_comments = []
-		ancestor_comments = self.comments.select { |comment| comment.parent_id.nil? }
+		ancestor_comments = self.comments.order(id: :asc).select { |comment| comment.parent_id.nil? }
 		ancestor_comments.each do |comment|
 			ordered_comments << comment.self_and_descendents
 		end

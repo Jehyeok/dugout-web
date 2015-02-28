@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150208081934) do
     t.integer  "like",             default: 0
     t.integer  "dislike",          default: 0
     t.integer  "count",            default: 0
-    t.string   "title",                         null: false
+    t.string   "title"
     t.text     "content",                       null: false
     t.integer  "user_like_ids",    default: [],              array: true
     t.integer  "user_dislike_ids", default: [],              array: true

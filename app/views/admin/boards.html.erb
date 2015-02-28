@@ -1,0 +1,13 @@
+<table class="table table-striped">
+	<% @boards.each do |board| %>
+		<tr>
+				<td class="boardId"><%= board.id %></td>
+				<td><%= board.user.nick_name %></td>
+				<td><%= board.content %></td>
+				<td>추천 <%= board.like %></td>
+				<td>비추천 <%= board.dislike %></td>
+				<td>조회수 <%= board.count %></td>
+				<td><button class="btn btn-danger rmBoardBtn">삭제</td>
+		</tr>
+	<% end %>
+</table>

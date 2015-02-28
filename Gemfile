@@ -41,3 +41,5 @@ gem 'spring',        group: :development
 gem 'pg'
 
 gem 'figaro'
+
+gem "twitter-bootstrap-rails"

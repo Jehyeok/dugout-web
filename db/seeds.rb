@@ -74,7 +74,8 @@ boards = Board.create([{
 	title: "제목입니다.1",
 	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
 	group_id: 1,
-	user_id: 1
+	user_id: 1,
+	level: 1
 }, {
 	title: "제목입니다.",
 	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
@@ -129,6 +130,21 @@ boards = Board.create([{
 	group_id: 10,
 	user_id: 1
 }])
+
+(1..120).each do |i|
+	Board.create(
+		title: "제목입니다.1",
+		content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+		group_id: 1,
+		user_id: 1
+	)
+end
+
+Board.create(
+	content: "의존성테스트",
+	group_id: 1,
+	user_id: 2
+)
 
 comments = Comment.create([{
 	content: "댓글내용이닷",
