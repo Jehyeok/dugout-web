@@ -73,8 +73,9 @@ class BoardsController < ApplicationController
 
 				file_obj = params["#file#{i}"].tempfile
 				contents = File.read(file_obj)
-				# File.write("app/assets/data/#{file_name}", contents)
-				File.open("app/assets/data/#{file_name}", "w+") {|f| f.write(contents) }
+				puts Rails.root.to_s
+				File.write("#{Rails.root}/app/assets/data/#{file_name}", contents)
+				# File.open("app/assets/data/#{file_name}", "w+") {|f| f.write(contents) }
 				# File.write("app/assets/data/#{file_name}", params["#file#{i}"])
 
 				@board.image_names << file_name
