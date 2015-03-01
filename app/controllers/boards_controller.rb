@@ -156,7 +156,8 @@ class BoardsController < ApplicationController
 				
 				file_obj = params["#file#{i}"].tempfile
 				contents = File.read(file_obj)
-				File.write("app/assets/data/#{file_name}", contents)
+				# File.write("app/assets/data/#{file_name}", contents)
+				File.write("#{Rails.root}/app/assets/data/#{file_name}", contents)
 				
 				@comment.image_names << file_name
 				@comment.image_names_will_change!
