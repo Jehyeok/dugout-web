@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   match '/admin' => 'admin#signin', via: :GET
   match '/admin/main' => 'admin#main', via: :GET
   match '/admin/users' => 'admin#users', via: :GET
+  match '/admin/groups/set_rank_form' => 'admin#set_rank_form', via: :GET
+  match '/admin/groups/set_rank' => 'admin#set_rank', via: :POST
   match '/admin/boards' => 'admin#boards', via: :GET
   match '/admin/boards/new' => 'admin#board_new', via: :GET
   match '/admin/users/:id/boards' => 'admin#user_boards', via: :GET

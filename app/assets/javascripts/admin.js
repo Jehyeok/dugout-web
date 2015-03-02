@@ -234,3 +234,30 @@ function dataURItoBlob(dataURI) {
 
     return new Blob([ia], {type:mimeString});
 }
+
+$('#setRankForm input:submit').click(function(e) {
+  e.preventDefault();
+
+  var form = $(this).closest('form');
+  var formData = new FormData();
+
+  var rankInputs = $('input[type=text]');
+
+  rankInputs.each(function(i) {
+    formData.append(i, $(this).val());
+    console.log($(this).val());
+  });
+
+  $.ajax({
+    url: '/admin/groups/set_rank',
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    type: 'POST',
+    success: function(data) {
+      alert("순위 변경 완료");
+      window.location = "";
+    }
+  });  
+});

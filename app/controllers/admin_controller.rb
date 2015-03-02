@@ -33,6 +33,19 @@ class AdminController < ApplicationController
 		render "admin/boards/new"
 	end
 
+	def set_rank_form
+	end
+
+	def set_rank
+		(0...10).each do |i|
+			group = Group.find_by_number(i)
+			group.rank = params[i.to_s].to_i - 1
+			group.save!
+		end
+
+		render plain: "success"
+	end
+
 	def check_amdin
 		begin
 			@user = User.find_by_email(session[:email])
