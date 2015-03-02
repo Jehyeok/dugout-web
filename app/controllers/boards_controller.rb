@@ -57,13 +57,23 @@ class BoardsController < ApplicationController
 		group = Group.find_by_number(params[:group_id])
 		puts "email: #{session[:email]}"
 		user = User.find_by_email(session[:email])
+		level = params[:level].nil? ? 0 : 1
+
+		if 1 == level
+			if session[:admin_key] != ENV["ADMIN_KEY"]
+				render plain: "관리자가 아닙니다"
+				return
+			end
+		end
 
 		@board = Board.create(
 			title: params[:title],
 			content: params[:content],
 			group_id: group.id,
 			# user_id: params[:user_id]
-			user_id: user.id
+			user_id: user.id,
+			level: level
+			# user_id: 1
 		)
 
 		(0...10).each do |i|
@@ -167,7 +177,12 @@ class BoardsController < ApplicationController
 
 		@board.comments << @comment
 		
+		registration_id = @board.user.gcm_reg_id
+		# registration_id = 	"APA91bFRdKfyvQrsGenpyoUNLE37YFv4EV6qYZL-jhiG6xaVXJ9r9egNRJVM8P81GmplDiPf5jFM_oEQP1y4PQs6ehN57vU07BL1vKnpip1VuHJBn48EsSuAnvFb9_cgd_YP6t-DbgqWOk99zf7LtUk-kV-RTLKG6g"
+
 		if @board.save && @comment.save
+			send_notification(registration_id, @board.id)
+
 			render plain: "success"
 		else
 			render plain: "fail"
@@ -269,7 +284,7 @@ class BoardsController < ApplicationController
 		user = User.find_by_email(session[:email])
 		@board = Board.find(params[:id])
 
-		if (user.email != @board.user.email)
+		if ((user.email != @board.user.email) && (!user.is_admin?))
 			render plain: "내 글만 삭제할 수 있습니다"
 			return 
 		end
@@ -278,6 +293,28 @@ class BoardsController < ApplicationController
 			render plain: "success"
 		else
 			render plain: "fail"
+		end
+	end
+
+	def send_notification(registration_id, board_id)
+		gcm = GCM.new("AIzaSyB_Cr3OyTcbmcNEJDMAFDab19pWlFuvSaM")
+		# you can set option parameters in here
+		#  - all options are pass to HTTParty method arguments
+		#  - ref: https://github.com/jnunemaker/httparty/blob/master/lib/httparty.rb#L40-L68
+		#  gcm = GCM.new("my_api_key", timeout: 3)
+
+		registration_ids = [] # an array of one or more client registration IDs
+
+		registration_ids.push(registration_id)
+
+		options = {data: {content: "게시글에 댓글이 달렸습니다", board_id: board_id}, collapse_key: "demo"}
+		response = gcm.send(registration_ids, options)
+	end
+
+	def noti_no_admin
+		if session[:admin_key] != ENV["ADMIN_KEY"]
+			render plain: "관리자가 아닙니다"
+			return
 		end
 	end
 end

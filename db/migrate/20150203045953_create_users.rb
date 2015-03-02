@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration
     	t.string :email, :null => false
   		t.string :nick_name, :null => false
 	    t.string :ip
+      t.string :gcm_reg_id
 
       t.belongs_to :group, index: true, :null => false, default: 1
 

@@ -30,9 +30,11 @@ Rails.application.routes.draw do
   resources :comments
   match '/boards/:id/comments' => 'comments#board_comments', via: :GET
 
-  match '/admin' => 'admin#main', via: :GET
+  match '/admin' => 'admin#signin', via: :GET
+  match '/admin/main' => 'admin#main', via: :GET
   match '/admin/users' => 'admin#users', via: :GET
   match '/admin/boards' => 'admin#boards', via: :GET
+  match '/admin/boards/new' => 'admin#board_new', via: :GET
   match '/admin/users/:id/boards' => 'admin#user_boards', via: :GET
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150208081934) do
     t.string   "email",                  null: false
     t.string   "nick_name",              null: false
     t.string   "ip"
+    t.string   "gcm_reg_id"
     t.integer  "group_id",   default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"

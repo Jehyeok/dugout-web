@@ -48,7 +48,14 @@ class UsersController < ApplicationController
 
 	# DELETE /users/:id
 	def destroy
+		my_user = User.find_by_email(session[:email])
 		@user = User.find(params[:id])
+
+		if !my_user.is_admin?
+			render plain: "관리자가 아닙니다"
+			return
+		end
+
 		if @user.destroy
 			render plain: "success"
 		else
@@ -59,10 +66,16 @@ class UsersController < ApplicationController
 	# POST /users/signin
 	def signin
 		user = User.find_by_email(params[:email])
+
 		# 없는 이메일
 		if user.nil?
 			render plain: "등록되지 않은 이메일 입니다"
 			return
+		end
+
+		if user.is_admin_email?
+			puts "admin_email!"
+			session[:admin_key] = ENV["ADMIN_KEY"]
 		end
 
 		# 로그인 성공
@@ -70,6 +83,11 @@ class UsersController < ApplicationController
 			puts "params email: params[:email]"
 			session[:email] = params[:email]
 			puts "session[:email]: #{session[:email]}"
+
+			# gcm_reg_id 등록
+			user.gcm_reg_id = params[:gcmRegId]
+			user.save!
+
 			render plain: "success"
 		else
 			render plain: "패스워드가 일치하지 않습니다"

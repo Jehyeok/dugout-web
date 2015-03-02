@@ -43,3 +43,5 @@ gem 'pg'
 gem 'figaro'
 
 gem "twitter-bootstrap-rails"
+
+gem 'gcm'

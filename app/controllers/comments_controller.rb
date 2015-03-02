@@ -55,7 +55,7 @@ class CommentsController < ApplicationController
 		user = User.find_by_email(session[:email])
 		@comment = Comment.find(params[:id])
 
-		if (user.email != @comment.user.email)
+		if ((user.email != @comment.user.email) && (!user.is_admin?))
 			render plain: "내 댓글만 삭제할 수 있습니다"
 			return 
 		end
