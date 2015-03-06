@@ -2,6 +2,12 @@ $('.rmBoardBtn').click(function(e) {
 	var tr = $(this).closest('tr')
 	var boardId = tr.find('.boardId').text();
 
+  var result = confirm("정말 삭제하시겠습니까?");
+
+  if (result === false) {
+    return;
+  }
+
 	$.ajax({
 		url: '/groups/0/boards/' + boardId,
 		type: 'DELETE',
@@ -18,6 +24,12 @@ $('.rmBoardBtn').click(function(e) {
 $('.rmUserBtn').click(function(e) {
 	var tr = $(this).closest('tr');
 	var userId = tr.find('.userId').text();
+
+  var result = confirm("정말 삭제하시겠습니까?");
+  
+  if (result === false) {
+    return;
+  }
 
 	$.ajax({
 		url: '/users/' + userId,
