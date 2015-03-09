@@ -22,8 +22,8 @@ class CommentsController < ApplicationController
 		ancestor_comments.each do |comment|
 			@ordered_comments << comment.self_and_descendents
 		end
-
-		render json: @ordered_comments.flatten
+		
+		render json: @ordered_comments.flatten.to_json(:method => [:is_me?])
 	end
 
 	# GET /comments/new

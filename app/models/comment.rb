@@ -43,4 +43,8 @@ class Comment < ActiveRecord::Base
   #     [child.users] + child.descendents_users
   #   end.flatten
   # end
+
+  def is_me?
+    return self.user.email == session[:email]
+  end
 end
