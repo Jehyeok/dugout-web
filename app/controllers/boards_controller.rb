@@ -231,7 +231,7 @@ class BoardsController < ApplicationController
 		# render json: @board.to_json(:include => :comments, methods: [:comment_size, :user_nick_name])
 		if @board.save
 			# render json: @board.to_json(:include => {:comments => {:methods => [:user_nick_name]}}, :methods => [:comment_size, :user_nick_name])
-			render json: @board.to_json(:methods => [:comment_size, :user_nick_name, :ordered_comments])
+			render json: @board.to_json(:methods => [:comment_size, :user_nick_name, :ordered_comments, :is_me?])
 		else
 			render plain: "fail"
 		end

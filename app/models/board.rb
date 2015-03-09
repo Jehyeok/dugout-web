@@ -26,4 +26,8 @@ class Board < ActiveRecord::Base
 		end
 		ordered_comments.flatten.as_json(:methods => :user_nick_name)
 	end
+
+	def is_me?
+		return self.user.email == session[:email]
+	end
 end
