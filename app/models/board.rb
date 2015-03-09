@@ -24,7 +24,7 @@ class Board < ActiveRecord::Base
 		ancestor_comments.each do |comment|
 			ordered_comments << comment.self_and_descendents
 		end
-		ordered_comments.flatten.as_json(:methods => :user_nick_name)
+		ordered_comments.flatten.as_json(:methods => [:user_nick_name, :is_me?])
 	end
 
 	def is_me?
