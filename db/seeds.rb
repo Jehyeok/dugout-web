@@ -72,61 +72,61 @@ users = User.create([{
 
 boards = Board.create([{
 	title: "제목입니다.1",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹1",
 	group_id: 1,
 	user_id: 1,
 	level: 1
 }, {
 	title: "제목입니다.",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹1",
 	group_id: 1,
 	user_id: 1
 }, {
 	title: "제목입니다.2",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹2",
 	group_id: 2,
 	user_id: 1
 }, {
 	title: "제목입니다.3",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹3",
 	group_id: 3,
 	user_id: 1,
 	like: 200
 }, {
 	title: "제목입니다.4",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹4",
 	group_id: 4,
 	user_id: 1,
 	like: 250
 }, {
 	title: "제목입니다.5",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹5",
 	group_id: 5,
 	user_id: 1,
 	like: 260
 }, {
 	title: "제목입니다.6",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹6",
 	group_id: 6,
 	user_id: 1
 }, {
 	title: "제목입니다.7",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹7",
 	group_id: 7,
 	user_id: 1
 }, {
 	title: "제목입니다.8",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹8",
 	group_id: 8,
 	user_id: 1
 }, {
 	title: "제목입니다.9",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹9",
 	group_id: 9,
 	user_id: 1
 }, {
 	title: "제목입니다.10",
-	content: "내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다",
+	content: "그룹10",
 	group_id: 10,
 	user_id: 1
 }])
