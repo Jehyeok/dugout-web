@@ -68,6 +68,11 @@ users = User.create([{
 	password: "123456",
 	nick_name: "테스트",
 	group_id: 2
+}, {
+	email: "parcelcross@gmail.com",
+	password: "dydwn00",
+	nick_name: "관리자",
+	group_id: 1
 }])
 
 boards = Board.create([{
