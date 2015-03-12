@@ -37,6 +37,13 @@ class UsersController < ApplicationController
 	# POST /users/change_nick_name
 	def change_nick_name
 		@user = User.find_by_email(session[:email])
+		user_same_nick_name = User.find_by_nick_name(params[:nick_name])
+
+		unless user_same_nick_name.nil?
+			render plain: "이용중인 닉네임입니다"
+			return
+		end
+
 		@user.nick_name = params[:will_nick_name]
 
 		if @user.save
@@ -107,6 +114,13 @@ class UsersController < ApplicationController
 
 		unless user_same_nick_name.nil?
 			render plain: "이용중인 닉네임입니다"
+			return
+		end
+
+		puts params[:password]
+		puts params[:passwordConfirm]
+		if params[:password] != params[:passwordConfirm]
+			render plain: "비밀번호가 일치하지 않습니다"
 			return
 		end
 

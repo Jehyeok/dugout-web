@@ -66,15 +66,20 @@ class BoardsController < ApplicationController
 			end
 		end
 
-		@board = Board.create(
-			title: params[:title],
-			content: params[:content],
-			group_id: group.id,
-			# user_id: params[:user_id]
-			user_id: user.id,
-			level: level
-			# user_id: 1
-		)
+		begin
+			@board = Board.create(
+				title: params[:title],
+				content: params[:content],
+				group_id: group.id,
+				# user_id: params[:user_id]
+				user_id: user.id,
+				level: level
+				# user_id: 1
+			)
+		rescue
+			render plain: "글쓰기 실패했습니다"
+			return
+		end
 
 		(0...10).each do |i|
 			puts i
@@ -151,13 +156,18 @@ class BoardsController < ApplicationController
 		@user = User.find_by_email(session[:email])
 		parent_comment = params[:comment_parent_id].empty? ? nil : Comment.find(params[:comment_parent_id])
 
-		@comment = Comment.create(
-			content: params[:content],
-			depth: parent_comment.nil? ? 0 : (parent_comment.depth + 1),
-			board_id: params[:board_id],
-			user_id: @user.id,
-			parent_id: parent_comment.nil? ? nil : parent_comment.id
-		)
+		begin
+			@comment = Comment.create(
+				content: params[:content],
+				depth: parent_comment.nil? ? 0 : (parent_comment.depth + 1),
+				board_id: params[:board_id],
+				user_id: @user.id,
+				parent_id: parent_comment.nil? ? nil : parent_comment.id
+			)
+		rescue
+			render plain: "글쓰기 실패했습니다"
+			return
+		end
 
 		(0...10).each do |i|
 			puts i
